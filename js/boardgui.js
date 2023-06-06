@@ -103,8 +103,8 @@ function get_moves() {
 function drawBoard() {
 
   // stockfish.postMessage('stop');
-  // stockfish.postMessage(`position fen ${board.fen()}`);
-  stockfish.postMessage('position startpos moves' + get_moves());
+  stockfish.postMessage(`position fen ${board.fen()}`);
+  // stockfish.postMessage('position startpos moves' + get_moves());
   stockfish.postMessage('go depth 20');
 
   removeAllArrows();
@@ -186,6 +186,7 @@ let firstSelectedCoord = null;
 let secondSelectedCoord = null;
 
 function closePopUps() {
+
   const popups = document.querySelectorAll('.promotion');
   popups[0].classList.add('hidden');
   popups[1].classList.add('hidden');
@@ -355,8 +356,4 @@ for (let x = 0; x < buttons.length; ++x) {
   })
 }
 
-window.onload = function() {
-
-  restartBoard(); 
-  // sayHelloWorld();
-}
+restartBoard();
