@@ -1,0 +1,96 @@
+/*-------------------------- GLOBAL --------------------------*/
+
+@font-face {
+  font-family: Montserrat;
+  src: url("ttf/Montserrat-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: Andale Mono;
+  src: url("ttf/AndaleMono.ttf");
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  background: #312e2b;
+}
+
+.hidden {
+  display: none;
+}
+
+/*-------------------------- MAIN --------------------------*/
+
+#main {
+  width: min(100vh, calc(100vw - 400px));
+  aspect-ratio: 1;
+  float: left;
+  position: absolute;
+  margin-left: max(0px, calc((100vw - 100vh - 400px) / 2));
+  margin-top: max(0px, calc((100vh + 400px - 100vw) / 2));
+}
+
+#main #board-area {
+  width: 100%;
+  aspect-ratio: 1;
+  pointer-events: none;
+  user-select: none;
+  position: absolute;
+}
+
+#main #board-area #board-content {
+  width: 90%;
+  height: 90%;
+  position: absolute;
+  left: 8%;
+  top: 5%;
+}
+
+/*-------------------------- SIDEBAR --------------------------*/
+
+#sidebar {
+  height: 100vh;
+  width: 400px;
+  position: absolute;
+  right: 0px;
+  background-color: #28241c;
+  margin-right: max(0px, calc((100vw - 100vh - 400px) / 2));
+}
+
+#sidebar #top {
+  background-color: #22201d;
+  position: absolute;
+  height: 150px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#sidebar #middle {
+  position: absolute;
+  width: 100%;
+  height: calc(100vh - 300px);
+  top: 150px;
+  display: flex;
+  overflow-y: auto;
+  scrollbar-face-color: #28241c;
+}
+
+#sidebar #bottom {
+  background-color: #22201d;
+  position: absolute;
+  height: 150px;
+  width: 100%;
+  display: flex;
+  bottom: 0px;
+}

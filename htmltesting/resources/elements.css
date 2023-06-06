@@ -1,0 +1,442 @@
+/*-------------------------- MAIN, BOARD-AREA, EVALBAR --------------------------*/
+
+.evalbar {
+  background-color:white;
+  height: 90%;
+  position: absolute;
+  width: 4%;
+  left: 2%;
+  top: 5%;
+  border:#464441;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.bar {
+  background-color: black;
+  height: 50%;
+  width: 100%;
+  transition: height 1s;
+  transition-timing-function: ease-in-out;
+  max-height: 100%;
+  min-height: 0%;
+  overflow: hidden;
+  position: absolute;
+}
+
+.score {
+  font-family: "Andale Mono";
+  position: absolute;
+  /* font-size: 2.5; */
+  /* height: auto; */
+  /* font-size: auto; */
+  /* text-align: center; */
+  /* padding: 7%; */
+}
+
+.score.whiteside {
+  fill: black;
+}
+
+.score.blackside {
+  /* top:0px; */
+  fill: white;
+}
+
+/*-------------------------- MAIN, BOARD-AREA, BOARD-CONTENT --------------------------*/
+
+.elements {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.elements.squares {
+  background-image: url("png/board.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.label {
+  pointer-events: none;
+  user-select: none;
+  font-family: Montserrat;
+  font-weight: bold;
+}
+
+.label.white {fill: rgb(240, 217, 181);}
+.label.black {fill: rgb(181, 136, 99);}
+
+.square {
+  user-select: all;
+  pointer-events: all;
+  border: 0px;
+  width: 12.5%;
+  height: 12.5%;
+  position: absolute;
+  display: block;
+
+}
+
+.square.white {background-color: rgb(240, 217, 181);}
+.square.black {background-color: rgb(181, 136, 99);}
+.square.highlight {background-color: rgb(243, 235, 91);}
+.square.red {background-color: rgb(228, 108, 84);}
+
+.piece {
+  user-select: all;
+  pointer-events: all;
+  cursor: pointer;
+  border: 0px;
+  background-repeat: no-repeat;
+  width: 12.5%;
+  background-size: cover;
+  height: 12.5%;
+  position: absolute;
+}
+
+.user.arrow {
+  fill: rgba(255, 170, 0, 0.8);
+  opacity: 0.8;
+}
+
+.book.arrow {
+  fill: lightblue;
+  opacity: 0.8;
+}
+
+.promotion {
+	width:12.5%;
+	height:12.5%;
+	pointer-events: all;
+	position: absolute;
+}
+
+.popup {
+	height: 100%;
+	width: 100%;
+}
+
+.b.popup {
+	transform: translateY(-350%);
+}
+
+.popup .promotion-button {
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+	border-radius: 0px;
+  border-width: 0px;
+	background-color: aliceblue;
+	background-repeat: no-repeat;
+  background-size: contain;
+	position: static;
+	display: block;
+	text-align: center;
+}
+
+.popup .promotion-button.exit {
+	height: 50%;
+	background-image: url('svg/exit.svg');
+	background-position: center;
+	background-size: 30%;
+}
+
+.popup button.hovered {
+	background-color: lightgray;
+}
+
+/*-------------------------- SIDEBAR, TOP --------------------------*/
+
+.openingname {
+  padding: 15px;
+  color: #eee;
+  font-weight: bold;
+  font-family: "Montserrat";
+  /* font-size: 1vw; */
+  text-align: center;
+}
+
+/*-------------------------- SIDEBAR, MIDDLE --------------------------*/
+
+.pgn {
+  color: #eee;
+  font-size: 30;
+  padding: 15px;
+  font-family: "Montserrat";
+}
+
+::-webkit-scrollbar {
+  background: #312e2b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #464441;
+}
+
+/*-------------------------- SIDEBAR, BOTTOM --------------------------*/
+
+#bottom button {
+  cursor: pointer;
+  color: #eee;
+  /* font-weight: bold; */
+  /* font-family: "Montserrat"; */
+  /* font-size: 75; */
+  width: 160px;
+  height: 110px;
+  border-radius: 1rem;
+  border-width: 0px;
+  background-color: #312e2b;
+  margin-top: 20px;
+}
+
+#bottom button.hovered {
+  background-color: #464441;
+}
+
+.icon {
+  height: 50px;
+  width: 50px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.restart {
+  margin-left: 26px;
+}
+
+.undo {
+  margin-left: 27px;
+}
+
+/*-------------------------- POSITIONS --------------------------*/
+
+[position="a8"] {
+  transform: translate(0, 0);
+}
+[position="a7"] {
+  transform: translate(0, 100%);
+}
+[position="a6"] {
+  transform: translate(0, 200%);
+}
+[position="a5"] {
+  transform: translate(0, 300%);
+}
+[position="a4"] {
+  transform: translate(0, 400%);
+}
+[position="a3"] {
+  transform: translate(0, 500%);
+}
+[position="a2"] {
+  transform: translate(0, 600%);
+}
+[position="a1"] {
+  transform: translate(0, 700%);
+}
+[position="b8"] {
+  transform: translate(100%, 0);
+}
+[position="b7"] {
+  transform: translate(100%, 100%);
+}
+[position="b6"] {
+  transform: translate(100%, 200%);
+}
+[position="b5"] {
+  transform: translate(100%, 300%);
+}
+[position="b4"] {
+  transform: translate(100%, 400%);
+}
+[position="b3"] {
+  transform: translate(100%, 500%);
+}
+[position="b2"] {
+  transform: translate(100%, 600%);
+}
+[position="b1"] {
+  transform: translate(100%, 700%);
+}
+[position="c8"] {
+  transform: translate(200%, 0);
+}
+[position="c7"] {
+  transform: translate(200%, 100%);
+}
+[position="c6"] {
+  transform: translate(200%, 200%);
+}
+[position="c5"] {
+  transform: translate(200%, 300%);
+}
+[position="c4"] {
+  transform: translate(200%, 400%);
+}
+[position="c3"] {
+  transform: translate(200%, 500%);
+}
+[position="c2"] {
+  transform: translate(200%, 600%);
+}
+[position="c1"] {
+  transform: translate(200%, 700%);
+}
+[position="d8"] {
+  transform: translate(300%, 0);
+}
+[position="d7"] {
+  transform: translate(300%, 100%);
+}
+[position="d6"] {
+  transform: translate(300%, 200%);
+}
+[position="d5"] {
+  transform: translate(300%, 300%);
+}
+[position="d4"] {
+  transform: translate(300%, 400%);
+}
+[position="d3"] {
+  transform: translate(300%, 500%);
+}
+[position="d2"] {
+  transform: translate(300%, 600%);
+}
+[position="d1"] {
+  transform: translate(300%, 700%);
+}
+[position="e8"] {
+  transform: translate(400%, 0);
+}
+[position="e7"] {
+  transform: translate(400%, 100%);
+}
+[position="e6"] {
+  transform: translate(400%, 200%);
+}
+[position="e5"] {
+  transform: translate(400%, 300%);
+}
+[position="e4"] {
+  transform: translate(400%, 400%);
+}
+[position="e3"] {
+  transform: translate(400%, 500%);
+}
+[position="e2"] {
+  transform: translate(400%, 600%);
+}
+[position="e1"] {
+  transform: translate(400%, 700%);
+}
+[position="f8"] {
+  transform: translate(500%, 0);
+}
+[position="f7"] {
+  transform: translate(500%, 100%);
+}
+[position="f6"] {
+  transform: translate(500%, 200%);
+}
+[position="f5"] {
+  transform: translate(500%, 300%);
+}
+[position="f4"] {
+  transform: translate(500%, 400%);
+}
+[position="f3"] {
+  transform: translate(500%, 500%);
+}
+[position="f2"] {
+  transform: translate(500%, 600%);
+}
+[position="f1"] {
+  transform: translate(500%, 700%);
+}
+[position="g8"] {
+  transform: translate(600%, 0);
+}
+[position="g7"] {
+  transform: translate(600%, 100%);
+}
+[position="g6"] {
+  transform: translate(600%, 200%);
+}
+[position="g5"] {
+  transform: translate(600%, 300%);
+}
+[position="g4"] {
+  transform: translate(600%, 400%);
+}
+[position="g3"] {
+  transform: translate(600%, 500%);
+}
+[position="g2"] {
+  transform: translate(600%, 600%);
+}
+[position="g1"] {
+  transform: translate(600%, 700%);
+}
+[position="h8"] {
+  transform: translate(700%, 0);
+}
+[position="h7"] {
+  transform: translate(700%, 100%);
+}
+[position="h6"] {
+  transform: translate(700%, 200%);
+}
+[position="h5"] {
+  transform: translate(700%, 300%);
+}
+[position="h4"] {
+  transform: translate(700%, 400%);
+}
+[position="h3"] {
+  transform: translate(700%, 500%);
+}
+[position="h2"] {
+  transform: translate(700%, 600%);
+}
+[position="h1"] {
+  transform: translate(700%, 700%);
+}
+
+[piecetype="bk"] {
+  background-image: url("svg/bk.svg");
+}
+[piecetype="bq"] {
+  background-image: url("svg/bq.svg");
+}
+[piecetype="br"] {
+  background-image: url("svg/br.svg");
+}
+[piecetype="bb"] {
+  background-image: url("svg/bb.svg");
+}
+[piecetype="bn"] {
+  background-image: url("svg/bn.svg");
+}
+[piecetype="bp"] {
+  background-image: url("svg/bp.svg");
+}
+[piecetype="wk"] {
+  background-image: url("svg/wk.svg");
+}
+[piecetype="wq"] {
+  background-image: url("svg/wq.svg");
+}
+[piecetype="wr"] {
+  background-image: url("svg/wr.svg");
+}
+[piecetype="wb"] {
+  background-image: url("svg/wb.svg");
+}
+[piecetype="wn"] {
+  background-image: url("svg/wn.svg");
+}
+[piecetype="wp"] {
+  background-image: url("svg/wp.svg");
+}

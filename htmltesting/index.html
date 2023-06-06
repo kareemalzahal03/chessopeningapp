@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="resources/sections.css">
+    <link rel="stylesheet" href="resources/elements.css">
+    <script src="js/chess.js"></script>
+    <script src="js/stockfish.asm.js"></script>
+    <script src="js/openings4.js"></script>
+    <title>Chess Project</title>
+  </head>
+  <body>
+    <section id="main">
+      <section id="board-area">
+        <section id="board-content">
+          <div class="elements squares">
+            <div class="square" position="a8"></div>
+            <div class="square" position="a7"></div>
+            <div class="square" position="a6"></div>
+            <div class="square" position="a5"></div>
+            <div class="square" position="a4"></div>
+            <div class="square" position="a3"></div>
+            <div class="square" position="a2"></div>
+            <div class="square" position="a1"></div>
+            <div class="square" position="b8"></div>
+            <div class="square" position="b7"></div>
+            <div class="square" position="b6"></div>
+            <div class="square" position="b5"></div>
+            <div class="square" position="b4"></div>
+            <div class="square" position="b3"></div>
+            <div class="square" position="b2"></div>
+            <div class="square" position="b1"></div>
+            <div class="square" position="c8"></div>
+            <div class="square" position="c7"></div>
+            <div class="square" position="c6"></div>
+            <div class="square" position="c5"></div>
+            <div class="square" position="c4"></div>
+            <div class="square" position="c3"></div>
+            <div class="square" position="c2"></div>
+            <div class="square" position="c1"></div>
+            <div class="square" position="d8"></div>
+            <div class="square" position="d7"></div>
+            <div class="square" position="d6"></div>
+            <div class="square" position="d5"></div>
+            <div class="square" position="d4"></div>
+            <div class="square" position="d3"></div>
+            <div class="square" position="d2"></div>
+            <div class="square" position="d1"></div>
+            <div class="square" position="e8"></div>
+            <div class="square" position="e7"></div>
+            <div class="square" position="e6"></div>
+            <div class="square" position="e5"></div>
+            <div class="square" position="e4"></div>
+            <div class="square" position="e3"></div>
+            <div class="square" position="e2"></div>
+            <div class="square" position="e1"></div>
+            <div class="square" position="f8"></div>
+            <div class="square" position="f7"></div>
+            <div class="square" position="f6"></div>
+            <div class="square" position="f5"></div>
+            <div class="square" position="f4"></div>
+            <div class="square" position="f3"></div>
+            <div class="square" position="f2"></div>
+            <div class="square" position="f1"></div>
+            <div class="square" position="g8"></div>
+            <div class="square" position="g7"></div>
+            <div class="square" position="g6"></div>
+            <div class="square" position="g5"></div>
+            <div class="square" position="g4"></div>
+            <div class="square" position="g3"></div>
+            <div class="square" position="g2"></div>
+            <div class="square" position="g1"></div>
+            <div class="square" position="h8"></div>
+            <div class="square" position="h7"></div>
+            <div class="square" position="h6"></div>
+            <div class="square" position="h5"></div>
+            <div class="square" position="h4"></div>
+            <div class="square" position="h3"></div>
+            <div class="square" position="h2"></div>
+            <div class="square" position="h1"></div>
+          </div>
+          <svg class="elements labels" viewBox="0 0 100 100" >
+            <text x="0.75" y="90.5" font-size="2.5" class="white label">1</text>
+            <text x="97.5" y="99" font-size="2.5" class="black label">h</text>
+            <text x="0.75" y="78" font-size="2.5" class="black label">2</text>
+            <text x="85" y="99" font-size="2.5" class="white label">g</text>
+            <text x="0.75" y="65.5" font-size="2.5" class="white label">3</text>
+            <text x="72.5" y="99" font-size="2.5" class="black label">f</text>
+            <text x="0.75" y="53" font-size="2.5" class="black label">4</text>
+            <text x="60" y="99" font-size="2.5" class="white label">e</text>
+            <text x="0.75" y="40.5" font-size="2.5" class="white label">5</text>
+            <text x="47.5" y="99" font-size="2.5" class="black label">d</text>
+            <text x="0.75" y="28" font-size="2.5" class="black label">6</text>
+            <text x="35" y="99" font-size="2.5" class="white label">c</text>
+            <text x="0.75" y="15.5" font-size="2.5" class="white label">7</text>
+            <text x="22.5" y="99" font-size="2.5" class="black label">b</text>
+            <text x="0.75" y="3" font-size="2.5" class="black label">8</text>
+            <text x="10" y="99" font-size="2.5" class="white label">a</text>
+          </svg>
+          <div class="elements pieces">
+            <div class="piece" piecetype="br" position="a8"></div>
+            <div class="piece" piecetype="bn" position="b8"></div>
+            <div class="piece" piecetype="bb" position="c8"></div>
+            <div class="piece" piecetype="bq" position="d8"></div>
+            <div class="piece" piecetype="bk" position="e8"></div>
+            <div class="piece" piecetype="bb" position="f8"></div>
+            <div class="piece" piecetype="bn" position="g8"></div>
+            <div class="piece" piecetype="br" position="h8"></div>
+            <div class="piece" piecetype="bp" position="a7"></div>
+            <div class="piece" piecetype="bp" position="b7"></div>
+            <div class="piece" piecetype="bp" position="c7"></div>
+            <div class="piece" piecetype="bp" position="d7"></div>
+            <div class="piece" piecetype="bp" position="e7"></div>
+            <div class="piece" piecetype="bp" position="f7"></div>
+            <div class="piece" piecetype="bp" position="g7"></div>
+            <div class="piece" piecetype="bp" position="h7"></div>
+            <div class="piece" piecetype="wr" position="a1"></div>
+            <div class="piece" piecetype="wn" position="b1"></div>
+            <div class="piece" piecetype="wb" position="c1"></div>
+            <div class="piece" piecetype="wq" position="d1"></div>
+            <div class="piece" piecetype="wk" position="e1"></div>
+            <div class="piece" piecetype="wb" position="f1"></div>
+            <div class="piece" piecetype="wn" position="g1"></div>
+            <div class="piece" piecetype="wr" position="h1"></div>
+            <div class="piece" piecetype="wp" position="a2"></div>
+            <div class="piece" piecetype="wp" position="b2"></div>
+            <div class="piece" piecetype="wp" position="c2"></div>
+            <div class="piece" piecetype="wp" position="d2"></div>
+            <div class="piece" piecetype="wp" position="e2"></div>
+            <div class="piece" piecetype="wp" position="f2"></div>
+            <div class="piece" piecetype="wp" position="g2"></div>
+            <div class="piece" piecetype="wp" position="h2"></div>
+          </div>
+          <svg class="elements arrows" viewBox="0 0 100 100">
+          </svg>
+          <div class="elements promotions">
+            <div class="w promotion hidden" position="c8">
+              <div class="w popup">
+                <button class="promotion-button" piecetype="wq"></button>
+                <button class="promotion-button" piecetype="wn"></button>
+                <button class="promotion-button" piecetype="wr"></button>
+                <button class="promotion-button" piecetype="wb"></button>
+                <button class="promotion-button exit"></button>
+              </div>
+            </div>
+            <div class="b promotion hidden" position="f1">
+              <div class="b popup">
+                <button class="promotion-button exit"></button>
+                <button class="promotion-button" piecetype="bb"></button>
+                <button class="promotion-button" piecetype="br"></button>
+                <button class="promotion-button" piecetype="bn"></button>
+                <button class="promotion-button" piecetype="bq"></button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="evalbar">
+          <div class="bar"></div>
+          <svg viewBox="0 0 100 60" style="position: absolute; bottom:0px;">
+            <text textLength="100" font-size="50" lengthAdjust="spacingAndGlyphs" y="50" x="0" class="score whiteside"></text>
+          </svg>
+          <svg viewBox="0 0 100 60" style="position: absolute; top:0px;">
+            <text color="white" textLength="100" font-size="50" lengthAdjust="spacingAndGlyphs" y="50" x="0" class="score blackside"></text>
+          </svg>
+        </div>
+
+      </section>
+    </section>
+    <section id="sidebar">
+      <section id="top">
+        <h2 class="openingname"></h2>
+      </section>
+      <section id="middle">
+        <h2 class="pgn">
+        </h2>
+      </section>
+      <section id="bottom">
+        <button class="undo">
+          <img src="resources/png/undo.png" class="icon">
+        </button>
+        <button class="restart">
+          <img src="resources/png/restart.png" class="icon">
+        </button>
+      </section>
+    </section>
+    
+    <script src="js/script.js"></script>
+    <script src="js/testscript.js"></script>
+    
+  </body>
+</html>
