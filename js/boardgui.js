@@ -89,11 +89,11 @@ function drawSide() {
 }
 
 function get_moves() {
-  var moves = '';
-  var history = board.history({verbose: true});
+  let moves = '';
+  let history = board.history({verbose: true});
         
-  for(var i = 0; i < history.length; ++i) {
-    var move = history[i];
+  for(let i = 0; i < history.length; ++i) {
+    let move = history[i];
     moves += ' ' + move.from + move.to + (move.promotion ? move.promotion : '');
   }
         

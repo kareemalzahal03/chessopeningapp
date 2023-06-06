@@ -17,7 +17,7 @@ stockfish.postMessage('setoption name Skill Level Probability value 128');
 
 
 stockfish.onmessage = function(event) {
-    var line;
+    let line;
 
     if (event && typeof event === "object") {
         line = event.data;
@@ -25,7 +25,7 @@ stockfish.onmessage = function(event) {
         line = event;
     }
 
-    var match = line.match(/^bestmove ([a-h][1-8])([a-h][1-8])([qrbn])?/);
+    let match = line.match(/^bestmove ([a-h][1-8])([a-h][1-8])([qrbn])?/);
     
     // Did stockfish finish calculating?
     if(match) {

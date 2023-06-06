@@ -1,10 +1,10 @@
 // We can load Stockfish.js via Web Workers or directly via a <script> tag.
 // Web Workers are better since they don't block the UI, but they are not always avaiable.
 
-var wait_for_script = false;
+let wait_for_script = false;
 
 if (!Worker) {
-    var script_tag  = document.createElement("script");
+    let script_tag  = document.createElement("script");
     script_tag.type ="text/javascript";
     script_tag.src  = "js/stockfish.asm.js";
     script_tag.onload = init;
