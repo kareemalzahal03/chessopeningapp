@@ -4,79 +4,74 @@
 
 const board = new Chess();
 const engineStatus = {};
+engineStatus.pv = [];
 const stockfish = typeof STOCKFISH === "function" ? STOCKFISH() : new Worker('js/stockfish.js');
 
 
 stockfish.postMessage('uci');
 stockfish.postMessage('isready');
+stockfish.postMessage('setoption name MultiPV value 3');
 stockfish.postMessage('setoption name Contempt value 0');
 stockfish.postMessage('setoption name Skill Level value 20');
-stockfish.postMessage('setoption name King Safety value 0');
+// stockfish.postMessage('setoption name King Safety value 0');
 stockfish.postMessage('setoption name Skill Level Maximum Error value 0');
 stockfish.postMessage('setoption name Skill Level Probability value 128');
+// stockfish.postMessage('go infinite');
 
+function getEval(type, number) {
+    // type -> 'cp' or 'mate'
+    // number -> evaluation str
+
+    let score = parseInt(number);
+
+    if(type == 'mate') {
+
+        if (board.turn() == 'w') {
+            score = (score > 0 ? '+M' : '-M') + Math.abs(score);
+        } else if (board.turn() == 'b') {
+            score = (score > 0 ? '-M' : '+M') + Math.abs(score);
+        }
+
+    } else if (type == 'cp') {
+
+        score = (score * (board.turn() === 'w' ? 1 : -1) / 100.0).toFixed(2);
+        score = (score > 0 ? '+' : '') + score;
+    }
+
+    return score;
+}
 
 stockfish.onmessage = function(event) {
-    let line;
+    let line = event;
+    if (event && typeof event === "object") {line = event.data;} else {line = event;}
 
-    if (event && typeof event === "object") {
-        line = event.data;
-    } else {
-        line = event;
-    }
 
-    let match = line.match(/^bestmove ([a-h][1-8])([a-h][1-8])([qrbn])?/);
+    let match = line.match(/^info.*multipv (\d+).*score (\w+) (-?\d+).*pv ([a-h][1-8])([a-h][1-8])([qrbn])?/);
     
-    // Did stockfish finish calculating?
-    if(match) {
-        engineStatus.move = `${match[1]}${match[2]}${match[3] ? match[3] : ""}`;
-    }
+    if (match) {
 
-    // Is there a line its calculating?
-    if(match = line.match(/^info .*\bpv ([a-h][1-8])([a-h][1-8])([qrbn])?/)) {
-
-        const move = `${match[1]}${match[2]}${match[3] ? match[3] : ""}`;
+        const rank = match[1];
+        const score = getEval(match[2], match[3]);
+        const move = `${match[4]}${match[5]}${match[6] ? match[6] : ""}`;
 
         if (board.moves({verbose: true}).map(m => m.lan).includes(move)) {
-            engineStatus.move = move;
-        } else {
-            engineStatus.move = null;
-        }
-    }
 
-    // Is it sending feedback?
-    if (match = line.match(/^info .*\bdepth (\d+) .*\bnps (\d+)/)) {
-        engineStatus.depth = match[1];
-        engineStatus.nps = match[2];
-    }
-    
-    /// Is it sending feedback with a score?
-    if(match = line.match(/^info .*\bscore (\w+) (-?\d+)/)) {
+            if (rank === '1') {
 
-        let score = parseInt(match[2]);
+                // console.log(engineStatus);
+                displayStatus();
+                engineStatus.pv = [];
 
-        if(match[1] == 'mate') {
-
-            if (board.turn() == 'w') {
-                score = (score > 0 ? '+M' : '-M') + Math.abs(score);
-            } else if (board.turn() == 'b') {
-                score = (score > 0 ? '-M' : '+M') + Math.abs(score);
+                // Is it sending feedback?
+                if (match = line.match(/^info .*\bdepth (\d+) .*\bnps (\d+)/)) {
+                    engineStatus.depth = match[1];
+                    engineStatus.nps = match[2];
+                }
             }
 
-        } else if (match[1] == 'cp') {
-
-            score = (score * (board.turn() === 'w' ? 1 : -1) / 100.0).toFixed(1);
-            score = (score > 0 ? '+' : '') + score;
-        }
-
-        if (engineStatus.move) {
-            engineStatus.score = score;
-        } else {
-            engineStatus.score = null;
+            engineStatus.pv[Number(rank)-1] = {move: move, score: score};
         }
     }
-    
-    displayStatus();
 };
 
 const evalbar = document.querySelector('.bar');
@@ -85,20 +80,44 @@ const blackscore = document.querySelector('.score.blackside');
 
 function displayStatus() {
 
-    if (engineStatus.score) {
+    if (engineStatus.pv.length > 0) {
 
-        if (engineStatus.score[1] === 'M' || Math.abs(Number(engineStatus.score)) >= 4) {
-            evalbar.setAttribute('style', `height: ${engineStatus.score[0]==='+' ? '0':'100'}%`);
+        // Set Bar of Engine
+
+        const bestscore = engineStatus.pv[0]['score'];
+
+        if (bestscore[1] === 'M' || Math.abs(Number(bestscore)) >= 4) {
+            evalbar.setAttribute('style', `height: ${bestscore[0]==='+' ? '0':'100'}%`);
         } else {
-            evalbar.setAttribute('style', `height: ${50-12.5*Number(engineStatus.score)}%`);
+            evalbar.setAttribute('style', `height: ${50-12.5*Number(bestscore)}%`);
         }
 
-        if (engineStatus.score[0] === '+') {
-            whitescore.textContent = engineStatus.score.substring(1);
+        if (bestscore[0] === '+') {
+            whitescore.textContent = bestscore.substring(1);
             blackscore.textContent = '';
-        } else if (engineStatus.score[0] === '-') {
-            blackscore.textContent = engineStatus.score.substring(1);
+        } else if (bestscore[0] === '-') {
+            blackscore.textContent = bestscore.substring(1);
             whitescore.textContent = '';
         }   
+        
+        // Draw Arrows
+
+        removeArrow('engine');
+        addArrow(engineStatus.pv[0].move.substring(0,2), engineStatus.pv[0].move.substring(2,4), 'engine', 1);
+        for (let x = 1; x < engineStatus.pv.length; ++x) {
+
+            if (engineStatus.pv[x].move[1] == 'M') {
+
+                addArrow(engineStatus.pv[x].move.substring(0,2), engineStatus.pv[x].move.substring(2,4), 'engine', 1);
+
+            } else if (engineStatus.pv[0].move[1] !== 'M') {
+
+                const diff = Math.abs(Number(engineStatus.pv[0].score) - Number(engineStatus.pv[x].score));
+
+                if (0 <= diff && diff <= 1) {
+                    addArrow(engineStatus.pv[x].move.substring(0,2), engineStatus.pv[x].move.substring(2,4), 'engine', 1-diff);
+                }
+            }
+        }
     }
 }

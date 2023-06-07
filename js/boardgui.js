@@ -30,11 +30,13 @@ function removeAllColors() {
 /////////////////////////////// arrows.js ///////////////////////////////
 
 // Draws arrow fromCoord toCoord with type being 'user' or 'book'
-function addArrow(fromCoord, toCoord, type) {
+function addArrow(fromCoord, toCoord, type, opacity) {
 
-  if (!!document.getElementById(`arrow-${fromCoord}${toCoord}`)) {
-    if (document.getElementById(`arrow-${fromCoord}${toCoord}`).classList.contains('user'))
-      document.getElementById(`arrow-${fromCoord}${toCoord}`).remove();   
+  if (type == 'user' && !!document.querySelector(`.arrow.${fromCoord}${toCoord}`)) {
+
+    if (!!document.querySelector(`.user.arrow.${fromCoord}${toCoord}`)) {
+      document.querySelector(`.user.arrow.${fromCoord}${toCoord}`).remove();
+    }
     return;
   }
 
@@ -47,7 +49,8 @@ function addArrow(fromCoord, toCoord, type) {
   const diry = (y2-y1)/dist;
 
   document.querySelector('.arrows').insertAdjacentHTML('beforeend',`
-  <polygon id="arrow-${fromCoord}${toCoord}" class="${type} arrow" points=
+  <polygon class="${type} arrow ${fromCoord}${toCoord}" 
+     ${opacity? 'style="opacity: '+opacity+'"': ''}" points=
    "${x1+4.5*dirx+1.375*diry} ${y1+4.5*diry-1.375*dirx},
     ${x1+(dist-4.5)*dirx + 1.375*diry} ${y1+(dist-4.5)*diry - 1.375*dirx},
     ${x1+(dist-4.5)*dirx + 3.25*diry} ${y1+(dist-4.5)*diry - 3.25*dirx},
@@ -58,10 +61,10 @@ function addArrow(fromCoord, toCoord, type) {
 }
 
 // Removes all elements with class 'arrow' that contain class 'user'
-function removeAllUserArrows() {
-  const userArrows = document.querySelectorAll('.user.arrow');
-  for (let x = 0; x < userArrows.length; x++) {
-    userArrows[x].remove();
+function removeArrow(type) {
+  const typeArrows = document.querySelectorAll(`.${type}.arrow`);
+  for (let x = 0; x < typeArrows.length; x++) {
+    typeArrows[x].remove();
   }
 }
 
@@ -103,9 +106,10 @@ function get_moves() {
 function drawBoard() {
 
   // stockfish.postMessage('stop');
+  // stockfish.postMessage('isready');
   stockfish.postMessage(`position fen ${board.fen()}`);
   // stockfish.postMessage('position startpos moves' + get_moves());
-  stockfish.postMessage('go depth 20');
+  stockfish.postMessage('go depth 18');
 
   removeAllArrows();
   closePopUps();
@@ -213,7 +217,7 @@ function squareRightClicked(coord) {
 function squareLeftClicked(coord) {
 
   removeAllColors();
-  removeAllUserArrows();
+  removeArrow('user');
 
   if (firstSelectedCoord !== null) {
 
@@ -237,7 +241,7 @@ function squareLeftClicked(coord) {
 function pieceLeftClicked(coord) {
 
   removeAllColors();
-  removeAllUserArrows();
+  removeArrow('user');
 
   if (firstSelectedCoord === null) {
 
