@@ -1,3 +1,5 @@
-Run 
-node server.js
-to run the site
+<div align="center">
+  <h2>
+    Chess Openings Tutor App
+  </h2>
+</div>
