@@ -2210,4 +2210,14 @@ class Chess {
   moveNumber() {
     return this._moveNumber
   }
+
+  // Added by Kareem Alzahal
+
+  epd() {
+    return this.fen().split(" ").slice(0, 4).join(" "); 
+  }
+
+  isMoveLegal(move) {
+    return this.moves({ verbose: true }).map((move) => move.lan).includes(move);
+  }
 }
