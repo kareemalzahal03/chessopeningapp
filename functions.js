@@ -21,83 +21,79 @@ function getScore(type, number) {
 }
 
 function displayStatus() {
+
+  // Update Eval Bar
+
+  if (engineStatus.pv.length == 0) return;
+
   const evalbar = document.querySelector(".bar");
   const whitescore = document.querySelector(".score.whiteside");
   const blackscore = document.querySelector(".score.blackside");
+  const bestscore = engineStatus.pv[0]["score"];
 
-  if (engineStatus.pv.length > 0) {
-    // Set Bar of Engine
-
-    const bestscore = engineStatus.pv[0]["score"];
-
-    if (bestscore[1] === "M" || Math.abs(Number(bestscore)) >= 4) {
-      evalbar.setAttribute(
-        "style",
-        `height: ${bestscore[0] === "+" ? "0" : "100"}%`
-      );
-    } else {
-      evalbar.setAttribute(
-        "style",
-        `height: ${50 - 12.5 * Number(bestscore)}%`
-      );
-    }
-
-    if (bestscore[0] === "+") {
-      whitescore.textContent = bestscore.substring(1);
-      blackscore.textContent = "";
-    } else if (bestscore[0] === "-") {
-      blackscore.textContent = bestscore.substring(1);
-      whitescore.textContent = "";
-    }
-
-    // Draw Arrows
-
-    removeArrow("engine");
-    addArrow(
-      engineStatus.pv[0].move.substring(0, 2),
-      engineStatus.pv[0].move.substring(2, 4),
-      "engine",
-      1
+  if (bestscore[1] === "M" || Math.abs(Number(bestscore)) >= 4) {
+    evalbar.setAttribute(
+      "style",
+      `height: ${bestscore[0] === "+" ? "0" : "100"}%`
     );
-    for (let x = 1; x < engineStatus.pv.length; ++x) {
-      if (engineStatus.pv[x].move[1] == "M") {
-        addArrow(
-          engineStatus.pv[x].move.substring(0, 2),
-          engineStatus.pv[x].move.substring(2, 4),
-          "engine",
-          1
-        );
-      } else if (engineStatus.pv[0].move[1] !== "M") {
-        const diff = Math.abs(
-          Number(engineStatus.pv[0].score) - Number(engineStatus.pv[x].score)
-        );
+  } else {
+    evalbar.setAttribute(
+      "style",
+      `height: ${50 - 12.5 * Number(bestscore)}%`
+    );
+  }
 
-        if (0 <= diff && diff <= 1) {
-          addArrow(
-            engineStatus.pv[x].move.substring(0, 2),
-            engineStatus.pv[x].move.substring(2, 4),
-            "engine",
-            1 - diff
-          );
-        }
+  if (bestscore[0] === "+") {
+    whitescore.textContent = bestscore.substring(1);
+    blackscore.textContent = "";
+  } else if (bestscore[0] === "-") {
+    blackscore.textContent = bestscore.substring(1);
+    whitescore.textContent = "";
+  }
+
+
+  let str = `Stockfish 11    Nps: ${engineStatus.nps}    Depth: ${engineStatus.depth}/18\n`;
+
+  // Draw Arrows
+  removeArrow("engine");
+  addArrow(engineStatus.pv[0].move.substring(0, 2),engineStatus.pv[0].move.substring(2, 4),"engine",1);
+  str += `${engineStatus.pv[0].move}: ${engineStatus.pv[0].score}\n`;
+
+  for (let x = 1; x < engineStatus.pv.length; ++x) {
+
+    if (engineStatus.pv[x].move[1] == "M") {
+
+      addArrow(engineStatus.pv[x].move.substring(0, 2),engineStatus.pv[x].move.substring(2, 4),"engine",1);
+      str += `${engineStatus.pv[x].move}: ${engineStatus.pv[x].score}\n`;
+
+    } else if (engineStatus.pv[0].move[1] !== "M") {
+
+      const diff = Math.abs(Number(engineStatus.pv[0].score) - Number(engineStatus.pv[x].score));
+
+      if (0 <= diff && diff <= 1) {
+        addArrow(engineStatus.pv[x].move.substring(0, 2),engineStatus.pv[x].move.substring(2, 4),"engine",1 - diff);
+        str += `${engineStatus.pv[x].move}: ${engineStatus.pv[x].score}\n`;
       }
     }
   }
+
+  // Display Engine Results
+  document.querySelector('.enginestatus').textContent = str;
 }
 
 function onMessage(event) {
   let line = event;
-  if (event && typeof event === "object") {
-    line = event.data;
-  } else {
-    line = event;
-  }
+  let match;
+  if (event && typeof event === "object") {line = event.data;} else {line = event;}
 
-  let match = line.match(
-    /^info.*multipv (\d+).*score (\w+) (-?\d+).*pv ([a-h][1-8])([a-h][1-8])([qrbn])?/
-  );
+  
+  if (match = line.match(/^bestmove/)) {
 
-  if (match) {
+    engineStatus.nps = '-';
+    displayStatus();
+
+  } else if (match = line.match(/^info.*multipv (\d+).*score (\w+) (-?\d+).*pv ([a-h][1-8])([a-h][1-8])([qrbn])?/)) {
+
     const rank = match[1];
     const score = getScore(match[2], match[3]);
     const move = `${match[4]}${match[5]}${match[6] ? match[6] : ""}`;

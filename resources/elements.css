@@ -1,13 +1,13 @@
 /*-------------------------- MAIN, BOARD-AREA, EVALBAR --------------------------*/
 
 .evalbar {
-  background-color:white;
+  background-color: white;
   height: 90%;
   position: absolute;
   width: 4%;
   left: 2%;
   top: 5%;
-  border:#464441;
+  border: #464441;
   border-width: 1px;
   border-style: solid;
 }
@@ -27,11 +27,6 @@
 .score {
   font-family: "Andale Mono";
   position: absolute;
-  /* font-size: 2.5; */
-  /* height: auto; */
-  /* font-size: auto; */
-  /* text-align: center; */
-  /* padding: 7%; */
 }
 
 .score.whiteside {
@@ -39,7 +34,6 @@
 }
 
 .score.blackside {
-  /* top:0px; */
   fill: white;
 }
 
@@ -64,8 +58,12 @@
   font-weight: bold;
 }
 
-.label.white {fill: rgb(240, 217, 181);}
-.label.black {fill: rgb(181, 136, 99);}
+.label.white {
+  fill: rgb(240, 217, 181);
+}
+.label.black {
+  fill: rgb(181, 136, 99);
+}
 
 .square {
   user-select: all;
@@ -75,13 +73,20 @@
   height: 12.5%;
   position: absolute;
   display: block;
-
 }
 
-.square.white {background-color: rgb(240, 217, 181);}
-.square.black {background-color: rgb(181, 136, 99);}
-.square.highlight {background-color: rgb(243, 235, 91);}
-.square.red {background-color: rgb(228, 108, 84);}
+.square.white {
+  background-color: rgb(240, 217, 181);
+}
+.square.black {
+  background-color: rgb(181, 136, 99);
+}
+.square.highlight {
+  background-color: rgb(243, 235, 91);
+}
+.square.red {
+  background-color: rgb(228, 108, 84);
+}
 
 .piece {
   user-select: all;
@@ -108,48 +113,48 @@
 }
 
 .engine.arrow {
-  fill:#95bb4a;
+  fill: #95bb4a;
 }
 
 .promotion {
-	width:12.5%;
-	height:12.5%;
-	pointer-events: all;
-	position: absolute;
+  width: 12.5%;
+  height: 12.5%;
+  pointer-events: all;
+  position: absolute;
 }
 
 .popup {
-	height: 100%;
-	width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 .b.popup {
-	transform: translateY(-350%);
+  transform: translateY(-350%);
 }
 
 .popup .promotion-button {
-	width: 100%;
-	height: 100%;
-	cursor: pointer;
-	border-radius: 0px;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  border-radius: 0px;
   border-width: 0px;
-	background-color: aliceblue;
-	background-repeat: no-repeat;
+  background-color: aliceblue;
+  background-repeat: no-repeat;
   background-size: contain;
-	position: static;
-	display: block;
-	text-align: center;
+  position: static;
+  display: block;
+  text-align: center;
 }
 
 .popup .promotion-button.exit {
-	height: 50%;
-	background-image: url('svg/exit.svg');
-	background-position: center;
-	background-size: 30%;
+  height: 50%;
+  background-image: url("svg/exit.svg");
+  background-position: center;
+  background-size: 30%;
 }
 
 .popup button.hovered {
-	background-color: lightgray;
+  background-color: lightgray;
 }
 
 /*-------------------------- SIDEBAR, TOP --------------------------*/
@@ -170,6 +175,16 @@
   font-size: 30;
   padding: 15px;
   font-family: "Montserrat";
+  width: 100%;
+}
+
+.enginestatus {
+  color: white;
+  white-space: break-spaces;
+  width: 100%;
+  text-align: center;
+  font-size: 20px;
+  padding: 15px;
 }
 
 ::-webkit-scrollbar {
@@ -185,9 +200,6 @@
 #bottom button {
   cursor: pointer;
   color: #eee;
-  /* font-weight: bold; */
-  /* font-family: "Montserrat"; */
-  /* font-size: 75; */
   width: 160px;
   height: 110px;
   border-radius: 1rem;

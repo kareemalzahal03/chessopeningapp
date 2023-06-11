@@ -81,7 +81,6 @@ body {
   width: 100%;
   height: calc(100vh - 300px);
   top: 150px;
-  display: flex;
   overflow-y: auto;
   scrollbar-face-color: #28241c;
 }
