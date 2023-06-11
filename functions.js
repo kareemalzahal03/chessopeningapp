@@ -51,7 +51,6 @@ function displayStatus() {
     whitescore.textContent = "";
   }
 
-
   let str = `Stockfish 11    Nps: ${engineStatus.nps}    Depth: ${engineStatus.depth}/18\n`;
 
   // Draw Arrows
