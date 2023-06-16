@@ -11,7 +11,6 @@ engineStatus.pv = [];
 /////////////////////////////// INIT STOCKFISH ///////////////////////////////
 
 stockfish.onmessage = onMessage;
-
 stockfish.postMessage("uci");
 stockfish.postMessage("isready");
 stockfish.postMessage("setoption name MultiPV value 3");
@@ -22,7 +21,10 @@ stockfish.postMessage("setoption name Skill Level Probability value 128");
 
 /////////////////////////////// LOAD BOARD ///////////////////////////////
 
+
+
 restartBoard();
+// flipBoard();
 
 /////////////////////////////// ADD CONTROL ///////////////////////////////
 
@@ -88,6 +90,8 @@ for (let x = 0; x < buttons.length; ++x) {
           ? buttons[x].getAttribute("piecetype")[1]
           : null
       );
+    } else if (buttons[x].classList.contains("flipboard")) {
+      flipBoard();
     }
   });
   buttons[x].addEventListener("mouseenter", function (event) {

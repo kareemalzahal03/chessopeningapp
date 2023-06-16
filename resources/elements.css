@@ -1,19 +1,14 @@
 /*-------------------------- MAIN, BOARD-AREA, EVALBAR --------------------------*/
 
 .evalbar {
-  background-color: white;
   height: 90%;
   position: absolute;
-  width: 4%;
+  aspect-ratio: calc(4/90);
   left: 2%;
   top: 5%;
-  border: #464441;
-  border-width: 1px;
-  border-style: solid;
 }
 
 .bar {
-  background-color: black;
   height: 50%;
   width: 100%;
   transition: height 1s;
@@ -26,15 +21,14 @@
 
 .score {
   font-family: "Andale Mono";
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.scorebox {
   position: absolute;
-}
-
-.score.whiteside {
-  fill: black;
-}
-
-.score.blackside {
-  fill: white;
+  width: 100%;
+  height: 100%;
 }
 
 /*-------------------------- MAIN, BOARD-AREA, BOARD-CONTENT --------------------------*/
@@ -51,11 +45,14 @@
   background-size: contain;
 }
 
+
 .label {
   pointer-events: none;
   user-select: none;
   font-family: Montserrat;
   font-weight: bold;
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
 .label.white {
@@ -93,12 +90,18 @@
   pointer-events: all;
   cursor: pointer;
   border: 0px;
-  background-repeat: no-repeat;
   width: 12.5%;
-  background-size: cover;
   height: 12.5%;
   position: absolute;
 }
+
+.pieceicon {
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 
 .user.arrow {
   fill: rgba(255, 170, 0, 0.8);
@@ -164,7 +167,6 @@
   color: #eee;
   font-weight: bold;
   font-family: "Montserrat";
-  /* font-size: 1vw; */
   text-align: center;
 }
 
@@ -200,12 +202,10 @@
 #bottom button {
   cursor: pointer;
   color: #eee;
-  width: 160px;
-  height: 110px;
   border-radius: 1rem;
   border-width: 0px;
   background-color: #312e2b;
-  margin-top: 20px;
+  position: absolute;
 }
 
 #bottom button.hovered {
@@ -219,12 +219,32 @@
   user-select: none;
 }
 
-.restart {
-  margin-left: 26px;
+.undo {
+  top: 20px;
+  left: 20px;
+  width: 110px;
+  height: 110px;
 }
 
-.undo {
-  margin-left: 27px;
+.restart {
+  top: 20px;
+  left: 150px;
+  width: 110px;
+  height: 110px;
+}
+
+.flipboard {
+  top: 20px;
+  left: 280px;
+  width: 100px;
+  height: 45px;
+}
+
+.removebook {
+  top: 85px;
+  left: 280px;
+  width: 100px;
+  height: 45px;
 }
 
 /*-------------------------- POSITIONS --------------------------*/
@@ -421,6 +441,7 @@
 [position="h1"] {
   transform: translate(700%, 700%);
 }
+
 
 [piecetype="bk"] {
   background-image: url("svg/bk.svg");

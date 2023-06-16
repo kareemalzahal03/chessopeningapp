@@ -22,36 +22,28 @@ function getScore(type, number) {
 
 function displayStatus() {
 
-  // Update Eval Bar
+  let str = `Stockfish 11    Nps: ${engineStatus.nps}    Depth: ${engineStatus.depth}/18\n`;
 
   if (engineStatus.pv.length == 0) return;
 
-  const evalbar = document.querySelector(".bar");
-  const whitescore = document.querySelector(".score.whiteside");
-  const blackscore = document.querySelector(".score.blackside");
+  // Update Eval Bar
+
+  const bar = document.querySelector(".bar");
+  const score = document.querySelector(".score");
   const bestscore = engineStatus.pv[0]["score"];
 
-  if (bestscore[1] === "M" || Math.abs(Number(bestscore)) >= 4) {
-    evalbar.setAttribute(
-      "style",
-      `height: ${bestscore[0] === "+" ? "0" : "100"}%`
-    );
+
+  if (bestscore[1] == 'M' || Number(bestscore) >= 4) {
+    bar.style.height = (bestscore[0] === '+' ? '0%' : '100%');
   } else {
-    evalbar.setAttribute(
-      "style",
-      `height: ${50 - 12.5 * Number(bestscore)}%`
-    );
+    bar.style.height = `${50 - 12.5 * Number(bestscore)}%`;
   }
 
-  if (bestscore[0] === "+") {
-    whitescore.textContent = bestscore.substring(1);
-    blackscore.textContent = "";
-  } else if (bestscore[0] === "-") {
-    blackscore.textContent = bestscore.substring(1);
-    whitescore.textContent = "";
-  }
+  score.setAttribute('style', `fill: ${bestscore[0] === "+" ? 'black' : 'white'}`);
+  score.setAttribute('y', bestscore[0] === "+" ? '89.8' : '1.6');
 
-  let str = `Stockfish 11    Nps: ${engineStatus.nps}    Depth: ${engineStatus.depth}/18\n`;
+
+  score.textContent = bestscore.substring(1);
 
   // Draw Arrows
   removeArrow("engine");
@@ -157,10 +149,7 @@ function colorLegalMoves(coord, color) {
 
 // Draws arrow fromCoord toCoord with type being 'user' or 'book'
 function addArrow(fromCoord, toCoord, type, opacity) {
-  if (
-    type == "user" &&
-    !!document.querySelector(`.arrow.${fromCoord}${toCoord}`)
-  ) {
+  if (type == "user" && !!document.querySelector(`.arrow.${fromCoord}${toCoord}`)) {
     if (!!document.querySelector(`.user.arrow.${fromCoord}${toCoord}`)) {
       document.querySelector(`.user.arrow.${fromCoord}${toCoord}`).remove();
     }
@@ -233,6 +222,39 @@ function addBookArrows() {
 
 /////////////////////////////// BOARD DRAWER ///////////////////////////////
 
+// let boardFlipped = false;
+
+function flipBoard() {
+
+  // boardFlipped = !boardFlipped;
+
+
+  const elementsToFlip = document.querySelectorAll('.evalbar,.score,.elements,.label,.pieceicon');
+
+  for (let x = 0; x < elementsToFlip.length; x++) {
+    if (elementsToFlip[x].classList.contains('flipped')) {
+      elementsToFlip[x].classList.remove('flipped');
+    } else {
+      elementsToFlip[x].classList.add('flipped');
+    }
+  }
+
+
+  // Change Labels
+
+  // const labels = document.querySelectorAll('.label');
+
+  // for (let x = 0; x < labels.length; x++) {
+  //   if (Number(labels[x].textContent)) {
+  //     labels[x].textContent = Math.abs(labels[x].textContent - (boardFlipped ? 9 : 0));
+  //   } else {
+  //     labels[x].textContent = String.fromCharCode(97+Math.abs(labels[x].textContent.charCodeAt(0) - 97 - (boardFlipped ? 7 : 0)));
+  //   }
+  // }
+
+
+}
+
 function drawBoard() {
   removeAllArrows();
   updatePosition();
@@ -247,16 +269,15 @@ function drawBoard() {
     const layout = board.board()[i % 8][Math.floor(i / 8)];
 
     if (!!layout) {
-      let piece = document.querySelector(
-        `[piecetype='${layout.color}${layout.type}'].piece.hidden`
-      );
+      let piece = document.querySelector(`.${layout.color}${layout.type}.piece.hidden`);
 
       if (piece == null) {
         piece = document.querySelector(".piece.hidden");
-        piece.setAttribute("piecetype", `${layout.color}${layout.type}`);
+        piece.setAttribute("class", `piece ${layout.color}${layout.type}`);
       }
 
       piece.setAttribute("position", layout.square);
+      piece.querySelector('.pieceicon').setAttribute('piecetype', `${layout.color}${layout.type}`);
       piece.classList.remove("hidden");
     }
   }
@@ -322,6 +343,8 @@ function select(coord) {
       doMove(firstSelectedCoord + secondSelectedCoord);
       deSelect();
     }
+  } else {
+    deSelect();
   }
 }
 

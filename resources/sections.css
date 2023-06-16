@@ -28,6 +28,10 @@ body {
   display: none;
 }
 
+.flipped {
+  transform: rotate(180deg);
+}
+
 /*-------------------------- MAIN --------------------------*/
 
 #main {
@@ -90,6 +94,6 @@ body {
   position: absolute;
   height: 150px;
   width: 100%;
-  display: flex;
+  /* display: flex; */
   bottom: 0px;
 }
